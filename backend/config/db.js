@@ -1,22 +1,46 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME || 'petpal',
-  process.env.DB_USER || 'postgres',
-  process.env.DB_PASSWORD || '1234567',
-  {
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5432,
+// Use DATABASE_URL from environment variables (for production)
+let sequelize;
+
+if (process.env.DATABASE_URL) {
+  // Production - Use DATABASE_URL from Render
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
-    logging: process.env.NODE_ENV === 'development' ? console.log : false,
+    logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    },
     pool: {
       max: 10,
       min: 0,
       acquire: 30000,
       idle: 10000,
     },
-  }
-);
+  });
+} else {
+  // Development - Use individual connection parameters
+  sequelize = new Sequelize(
+    process.env.DB_NAME || 'petpal',
+    process.env.DB_USER || 'postgres',
+    process.env.DB_PASSWORD || '1234567',
+    {
+      host: process.env.DB_HOST || 'localhost',
+      port: process.env.DB_PORT || 5432,
+      dialect: 'postgres',
+      logging: process.env.NODE_ENV === 'development' ? console.log : false,
+      pool: {
+        max: 10,
+        min: 0,
+        acquire: 30000,
+        idle: 10000,
+      },
+    }
+  );
+}
 
 const addUsernameColumn = async () => {
   try {
@@ -87,9 +111,12 @@ const connectDB = async () => {
     await addUsernameColumn();
     
     // Now sync models (alter will add any other missing columns)
+    // In production, we don't want to auto-sync
     if (process.env.NODE_ENV !== 'production') {
       await sequelize.sync({ alter: true });
       console.log('📊 Database models synchronized.');
+    } else {
+      console.log('📊 Production mode - skipping auto-sync');
     }
   } catch (error) {
     console.error('❌ Unable to connect to PostgreSQL:', error);
