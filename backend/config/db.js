@@ -44,6 +44,19 @@ if (process.env.DATABASE_URL) {
 
 const addUsernameColumn = async () => {
   try {
+    // First check if users table exists
+    const [tableExists] = await sequelize.query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = 'users'
+      );
+    `);
+    
+    if (!tableExists[0].exists) {
+      console.log('📝 Users table does not exist yet, will be created during sync');
+      return;
+    }
+    
     // Check if username column exists
     const [results] = await sequelize.query(`
       SELECT column_name 
@@ -98,7 +111,7 @@ const addUsernameColumn = async () => {
     }
   } catch (error) {
     console.error('❌ Error adding username column:', error.message);
-    throw error;
+    // Don't throw error, just log it
   }
 };
 
@@ -107,17 +120,14 @@ const connectDB = async () => {
     await sequelize.authenticate();
     console.log('✅ PostgreSQL connection established successfully.');
     
-    // Manually add username column first
+    // Sync all models first (this creates tables)
+    console.log('📊 Syncing database models...');
+    await sequelize.sync({ alter: true });
+    console.log('✅ Database models synchronized.');
+    
+    // Then add username column if needed
     await addUsernameColumn();
     
-    // Now sync models (alter will add any other missing columns)
-    // In production, we don't want to auto-sync
-    if (process.env.NODE_ENV !== 'production') {
-      await sequelize.sync({ alter: true });
-      console.log('📊 Database models synchronized.');
-    } else {
-      console.log('📊 Production mode - skipping auto-sync');
-    }
   } catch (error) {
     console.error('❌ Unable to connect to PostgreSQL:', error);
     process.exit(1);
