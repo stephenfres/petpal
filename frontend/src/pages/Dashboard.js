@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useDarkMode } from '../context/DarkModeContext';
 import { 
-  PawPrint, 
+  Cat, 
   Heart, 
   Calendar, 
   Activity, 
@@ -82,7 +82,7 @@ export const Dashboard = () => {
     { 
       label: t('dashboard.totalPets', 'Total Pets'), 
       value: totalPets, 
-      icon: PawPrint, 
+      icon: Cat, 
       bgColor: darkMode ? 'bg-blue-900/30' : 'bg-blue-100',
       textColor: darkMode ? 'text-blue-400' : 'text-blue-600'
     },
@@ -255,7 +255,7 @@ export const Dashboard = () => {
 
         {totalPets === 0 ? (
           <div className={`text-center py-12 rounded-xl shadow-md ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
-            <PawPrint className={`h-16 w-16 mx-auto mb-4 ${darkMode ? 'text-gray-600' : 'text-gray-300'}`} />
+            <Cat className={`h-16 w-16 mx-auto mb-4 ${darkMode ? 'text-gray-600' : 'text-gray-300'}`} />
             <p className={`mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               {t('dashboard.noPets', 'No pets added yet')}
             </p>

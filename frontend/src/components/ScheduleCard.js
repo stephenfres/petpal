@@ -1,9 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Clock, CheckCircle, Utensils } from 'lucide-react';
 
 export const ScheduleCard = ({ schedule, onMarkFed, onEdit, onDelete }) => {
-  const { t } = useTranslation();
   const isFedToday = schedule.lastFed && 
     new Date(schedule.lastFed).toDateString() === new Date().toDateString();
 

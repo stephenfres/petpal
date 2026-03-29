@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Bell, Check, Trash2 } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Bell, Trash2 } from 'lucide-react';
 import { useNotifications } from '../hooks/useNotifications';
 import { useOnClickOutside } from '../hooks/useOnClickOutside';
 

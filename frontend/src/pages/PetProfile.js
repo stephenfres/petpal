@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
@@ -28,7 +28,7 @@ export const PetProfile = () => {
   const [loading, setLoading] = useState(!isNew);
   const [imagePreview, setImagePreview] = useState(null);
 
-  const { register, handleSubmit, reset, setValue, watch } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       name: '',
       type: 'dog',
@@ -42,13 +42,7 @@ export const PetProfile = () => {
     },
   });
 
-  useEffect(() => {
-    if (!isNew && id) {
-      fetchPet();
-    }
-  }, [id]);
-
-  const fetchPet = async () => {
+  const fetchPet = useCallback(async () => {
     try {
       const response = await getPet(id);
       const pet = response.data.data;
@@ -60,7 +54,13 @@ export const PetProfile = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, navigate, reset]);
+
+  useEffect(() => {
+    if (!isNew && id) {
+      fetchPet();
+    }
+  }, [fetchPet, id, isNew]);
 
   const { mutate: savePet, loading: saving } = useMutation(
     isNew ? createPet : (data) => updatePet(id, data)

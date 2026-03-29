@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from './useAuth';
 import { getNotifications, markAsRead, markAllAsRead, deleteNotification } from '../api/notificationApi';
 
@@ -9,7 +9,7 @@ export const useNotifications = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchNotifications = async () => {
+  const fetchNotifications = useCallback(async () => {
     if (!user) return;
     
     setLoading(true);
@@ -24,7 +24,7 @@ export const useNotifications = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   const markNotificationAsRead = async (id) => {
     try {
@@ -70,7 +70,7 @@ export const useNotifications = () => {
       
       return () => clearInterval(interval);
     }
-  }, [user]);
+  }, [user, fetchNotifications]);
 
   return {
     notifications,

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { useFetch, useMutation } from '../hooks/useFetch';
 import { getVaccinations, createVaccination, updateVaccination, deleteVaccination } from '../api/vaccinationApi';
@@ -10,7 +9,6 @@ import { Plus, Syringe, Calendar, AlertCircle, CheckCircle, X, Edit2, Trash2 } f
 import toast from 'react-hot-toast';
 
 export const VaccinationTracker = () => {
-  const { t } = useTranslation();
   const { darkMode } = useDarkMode();
   const [searchParams] = useSearchParams();
   const [selectedPet, setSelectedPet] = useState(searchParams.get('petId') || '');

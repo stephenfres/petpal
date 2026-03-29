@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useDarkMode } from '../context/DarkModeContext';
-import { Shield, Lock, Database, Eye, Trash2, Mail, Globe } from 'lucide-react';
+import { Shield, Lock, Database, Eye } from 'lucide-react';
 
 export const PrivacyPolicy = () => {
   const { darkMode } = useDarkMode();

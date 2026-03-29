@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDarkMode } from '../context/DarkModeContext';
-import { PawPrint, CheckCircle, Shield, Heart, AlertCircle, Calendar, Users, Lock, FileText, Mail } from 'lucide-react';
+import { Cat, CheckCircle, Shield, Heart, AlertCircle, Calendar, Users, Lock, FileText, Mail } from 'lucide-react';
 
 export const TermsAndConditions = () => {
   const { darkMode } = useDarkMode();
@@ -25,7 +25,7 @@ export const TermsAndConditions = () => {
           <div className="bg-gradient-to-r from-teal-600 to-cyan-600 px-8 py-6">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center space-x-3">
-                <PawPrint className="h-10 w-10 text-white" />
+                <Cat className="h-10 w-10 text-white" />
                 <h1 className="text-2xl md:text-3xl font-bold text-white">
                   Terms and Conditions
                 </h1>

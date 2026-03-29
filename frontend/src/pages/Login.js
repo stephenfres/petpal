@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/useAuth';
 import { useDarkMode } from '../context/DarkModeContext';
-import { PawPrint, Mail, Lock, Eye, EyeOff, User, CheckSquare, Square, Check, AtSign } from 'lucide-react';
+import { Cat, Mail, Lock, Eye, EyeOff, User, CheckSquare, Square, Check, AtSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Login = () => {
@@ -148,7 +148,7 @@ export const Login = () => {
           <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
             darkMode ? 'bg-teal-900/50' : 'bg-teal-100'
           }`}>
-            <PawPrint className={`h-8 w-8 ${darkMode ? 'text-teal-400' : 'text-teal-600'}`} />
+            <Cat className={`h-8 w-8 ${darkMode ? 'text-teal-400' : 'text-teal-600'}`} />
           </div>
           <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
             {isRegister ? 'Create Account' : t('auth.welcome')}

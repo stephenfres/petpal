@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { MapPin, Phone, Clock, Globe, Navigation, Search, Star, Heart } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { MapPin, Phone, Clock, Globe, Navigation, Search, Heart } from 'lucide-react';
 import { getNearbyVets, getAllVets } from '../api/vetApi';
 import { useDarkMode } from '../context/DarkModeContext';
 import toast from 'react-hot-toast';
@@ -11,8 +11,6 @@ export const VetFinder = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [searchRadius, setSearchRadius] = useState(10);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedVet, setSelectedVet] = useState(null);
-
   // Get user's location
   useEffect(() => {
     if (navigator.geolocation) {
@@ -31,16 +29,9 @@ export const VetFinder = () => {
     }
   }, []);
 
-  // Fetch nearby vets when location changes
-  useEffect(() => {
-    if (userLocation) {
-      fetchNearbyVets();
-    } else {
-      fetchAllVets();
-    }
-  }, [userLocation, searchRadius]);
+  const fetchNearbyVets = useCallback(async () => {
+    if (!userLocation) return;
 
-  const fetchNearbyVets = async () => {
     setLoading(true);
     try {
       const response = await getNearbyVets(userLocation.lat, userLocation.lng, searchRadius);
@@ -50,9 +41,9 @@ export const VetFinder = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchRadius, userLocation]);
 
-  const fetchAllVets = async () => {
+  const fetchAllVets = useCallback(async () => {
     setLoading(true);
     try {
       const response = await getAllVets();
@@ -62,7 +53,16 @@ export const VetFinder = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  // Fetch nearby vets when location changes
+  useEffect(() => {
+    if (userLocation) {
+      fetchNearbyVets();
+    } else {
+      fetchAllVets();
+    }
+  }, [fetchAllVets, fetchNearbyVets, userLocation]);
 
   const handleGetDirections = (vet) => {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${vet.latitude},${vet.longitude}`;

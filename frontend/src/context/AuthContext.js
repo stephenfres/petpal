@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { login as loginApi, register as registerApi, getMe } from '../api/authApi';
 import toast from 'react-hot-toast';
 

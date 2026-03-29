@@ -255,7 +255,7 @@ export const Accessibility = () => {
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500
                     ${isActive ? 'bg-teal-600' : darkMode ? 'bg-gray-600' : 'bg-gray-300'}
                   `}
-                  aria-pressed={isActive}
+                  aria-checked={isActive}
                   aria-label={`Toggle ${feature.title}`}
                   role="switch"
                 >
@@ -322,7 +322,7 @@ export const Accessibility = () => {
           <p className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
             This is sample text that will resize when "Large Text" is enabled.
           </p>
-          <div className="h-2 w-32 rounded-full overflow-hidden ${darkMode ? 'bg-teal-800' : 'bg-teal-200'}">
+          <div className={`h-2 w-32 rounded-full overflow-hidden ${darkMode ? 'bg-teal-800' : 'bg-teal-200'}`}>
             <div className="h-full w-2/3 bg-teal-600 rounded-full animate-pulse" 
                  style={{ animationPlayState: settings.reduceMotion ? 'paused' : 'running' }}>
             </div>

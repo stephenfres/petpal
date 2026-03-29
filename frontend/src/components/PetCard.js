@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Edit2, Trash2, PawPrint } from 'lucide-react';
+import { Edit2, Trash2, Cat } from 'lucide-react';
 
 export const PetCard = ({ pet, onEdit, onDelete }) => {
   const { t } = useTranslation();
@@ -50,7 +50,7 @@ export const PetCard = ({ pet, onEdit, onDelete }) => {
         {pet.imageUrl ? (
           <img src={pet.imageUrl} alt={pet.name} className="w-full h-full object-cover" />
         ) : (
-          <PawPrint className="h-16 w-16 text-white/80" />
+          <Cat className="h-16 w-16 text-white/80" />
         )}
       </div>
       

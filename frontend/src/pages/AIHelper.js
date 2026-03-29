@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useAuth } from '../hooks/useAuth';
 import { getAdvice, analyzeSymptoms, getNutritionAdvice } from '../api/aiApi';
 import { getPets } from '../api/petApi';
 import { useFetch } from '../hooks/useFetch';
@@ -13,7 +11,6 @@ import {
   Stethoscope, 
   Utensils, 
   HelpCircle,
-  Sparkles,
   Trash2,
   AlertCircle,
   Zap
@@ -27,8 +24,6 @@ const quickPrompts = [
 ];
 
 export const AIHelper = () => {
-  const { t } = useTranslation();
-  const { user } = useAuth();
   const { darkMode } = useDarkMode();
   const [messages, setMessages] = useState([
     {

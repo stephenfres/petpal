@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useAccessibility } from '../context/AccessibilityContext';
 
 export const ScreenReaderAnnouncer = () => {
@@ -7,8 +7,7 @@ export const ScreenReaderAnnouncer = () => {
   const timeoutRef = useRef(null);
   const isSpeakingRef = useRef(false);
 
-  // Function to announce text with debouncing
-  const announce = (text) => {
+  const announce = useCallback((text) => {
     if (!settings.screenReader) return;
     if (!text || text.length === 0) return;
     
@@ -47,7 +46,7 @@ export const ScreenReaderAnnouncer = () => {
       
       window.speechSynthesis.speak(utterance);
     }, 300);
-  };
+  }, [settings.screenReader]);
 
   // Announce page title when it changes
   useEffect(() => {
@@ -91,7 +90,7 @@ export const ScreenReaderAnnouncer = () => {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [settings.screenReader]);
+  }, [announce, settings.screenReader]);
 
   return null;
 };

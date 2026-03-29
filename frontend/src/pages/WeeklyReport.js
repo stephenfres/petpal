@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { useFetch, useMutation } from '../hooks/useFetch';
+import { useFetch } from '../hooks/useFetch';
 import { getReports, generateReport } from '../api/reportApi';
 import { getPets } from '../api/petApi';
 import { useDarkMode } from '../context/DarkModeContext';

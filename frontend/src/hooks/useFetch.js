@@ -1,11 +1,30 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 export const useFetch = (fetchFunction, dependencies = []) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async () => {
+  const dependenciesKey = JSON.stringify(dependencies);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetchFunction();
+        setData(response.data.data);
+      } catch (err) {
+        setError(err.response?.data?.message || 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [fetchFunction, dependenciesKey]);
+
+  const refetch = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -16,13 +35,9 @@ export const useFetch = (fetchFunction, dependencies = []) => {
     } finally {
       setLoading(false);
     }
-  }, dependencies);
+  };
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  return { data, loading, error, refetch: fetchData, setData };
+  return { data, loading, error, refetch, setData };
 };
 
 export const useMutation = (mutationFunction) => {
