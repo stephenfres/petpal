@@ -1,0 +1,8 @@
+﻿[build]
+  base = "frontend"
+  command = "npm install --legacy-peer-deps && npm run build"
+  publish = "build"
+
+[build.environment]
+  CI = "false"
+  REACT_APP_API_URL = "https://petpal-0v7w.onrender.com"
